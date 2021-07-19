@@ -8,7 +8,7 @@ import javax.persistence.Id;
 /**
  * @author Ahmad Irfaan
  * @date 7/19/2021 10:49 AM
- * microservices-account
+ * microservices-account testing menggunakan PAT
  */
 
 @Data
