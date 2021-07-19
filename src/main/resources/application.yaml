@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: account-service
+  redis:
+    host: localhost # setting untuk redis
+    port: 6380
+  datasource:
+    platform: hibernate.dialect.PostgreSQLDialect
+    url: jdbc:postgresql://localhost:5433/account
+    username: postgres
+    password: P@ssw0rd
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        default-schema: public
+        format_sql: true
+server:
+  port: 8010
+
+
+
