@@ -15,10 +15,7 @@ import java.util.Objects;
  * microservices-account
  */
 
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
+@Data
 @Entity(name = "account")
 public class Account {
 
