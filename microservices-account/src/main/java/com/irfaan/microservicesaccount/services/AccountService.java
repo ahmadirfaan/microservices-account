@@ -5,6 +5,8 @@ import com.irfaan.microservicesaccount.db.entity.TempAccount;
 import com.irfaan.microservicesaccount.db.repository.AccountRepository;
 import com.irfaan.microservicesaccount.db.repository.TempAccountRepository;
 import com.irfaan.microservicesaccount.dto.RegisterCheckDto;
+import com.irfaan.microservicesaccount.feignclient.OTPClient;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +23,13 @@ public class AccountService {
 
    private final AccountRepository accountRepository;
    private final TempAccountRepository tempAccountRepository;
+   private final OTPClient otpClient;
 
    @Autowired
-   public AccountService(AccountRepository accountRepository, TempAccountRepository tempAccountRepository) {
+   public AccountService(AccountRepository accountRepository, TempAccountRepository tempAccountRepository, OTPClient otpClient) {
       this.accountRepository = accountRepository;
       this.tempAccountRepository = tempAccountRepository;
+      this.otpClient = otpClient;
    }
 
 
@@ -45,6 +49,13 @@ public class AccountService {
       tempAccountByEmail.setEmail(email);
       tempAccountByEmail.setValid(false);
       tempAccountRepository.save(tempAccountByEmail);
+
+      // request OTP
+      try {
+         otpClient.requestOTP(registerCheckDto);
+      } catch (FeignException.FeignClientException ex) {
+         ResponseEntity.status(ex.status()).body(ex.contentUTF8());
+      }
       return ResponseEntity.ok().build();
    }
 }

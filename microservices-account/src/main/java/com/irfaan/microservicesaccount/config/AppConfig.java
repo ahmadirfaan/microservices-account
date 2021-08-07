@@ -1,5 +1,6 @@
 package com.irfaan.microservicesaccount.config;
 
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
@@ -11,5 +12,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @Configuration
 @EnableJpaAuditing
+@EnableFeignClients("com.irfaan.microservicesaccount.feignclient")
 public class AppConfig {
 }
