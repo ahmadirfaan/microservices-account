@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: otp
+  redis:
+    port: 6380
+    host: localhost
+    timeout: 10s
+server:
+  port: 8020
+logging:
+  level:
+    com:
+      irfaan:
+        microservice:
+          otp: debug
