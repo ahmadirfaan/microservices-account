@@ -1,5 +1,6 @@
 package com.irfaan.microservicesaccount.services;
 
+
 import com.irfaan.microservicesaccount.db.entity.Account;
 import com.irfaan.microservicesaccount.db.entity.TempAccount;
 import com.irfaan.microservicesaccount.db.repository.AccountRepository;
@@ -58,4 +59,8 @@ public class AccountService {
       }
       return ResponseEntity.ok().build();
    }
+
+    public String testLoadBalancer() {
+      return otpClient.testLoadBalancer();
+    }
 }

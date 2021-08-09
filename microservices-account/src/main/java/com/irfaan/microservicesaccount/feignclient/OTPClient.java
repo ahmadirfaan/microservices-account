@@ -3,6 +3,7 @@ package com.irfaan.microservicesaccount.feignclient;
 import com.irfaan.microservicesaccount.dto.RegisterCheckDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -12,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
  * microservices-account
  */
 
-@FeignClient(value = "otp", url = "http://localhost:8020")
+@FeignClient(value = "otp") //url dihilangkan karena kita tidak perlu mendaftarkan endpoint mana yang akan dituju
 public interface OTPClient {
     @PostMapping("/request")
     public ResponseEntity<?> requestOTP(@RequestBody RegisterCheckDto registerCheckDto);
+
+    @GetMapping("/test-loadbalancer")
+    public String testLoadBalancer();
 }

@@ -19,6 +19,16 @@ spring:
         format_sql: true
 server:
   port: 8010
-
-
-
+#eureka atau load balancer setting
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+# logging untuk level project-nya
+logging:
+  level:
+    com:
+      irfaan:
+        microservicesaccount: debug

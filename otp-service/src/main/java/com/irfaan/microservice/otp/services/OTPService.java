@@ -43,6 +43,12 @@ public class OTPService {
         tempOTP.setEmail(email);
         tempOTP.setOtp(randomOTP);
         tempOTPRepository.save(tempOTP);
+
+        // Send to message broker
+    }
+
+    public void sendEmail(String to, String body) {
+        log.debug("to: {}, body: {}", to, body);
     }
 
     private String generateOTP() {

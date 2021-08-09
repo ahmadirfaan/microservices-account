@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: email
+## email config
+  mail:
+    port: 587
+    host: smtp.gmail.com
+    username: vargoadventure@gmail.com
+    password: hibatullah22
+    properties:
+      smtp:
+        auth: true
+      mail:
+        smtp:
+          starttl:
+            enable: true
+
+# connection redis
+  redis:
+    port: 6380
+    host: localhost
+    timeout: 10s
+logging:
+  level:
+    com:
+      irfaan:
+        microservices:
+          emailservice: debug
+server:
+  port: 8030
