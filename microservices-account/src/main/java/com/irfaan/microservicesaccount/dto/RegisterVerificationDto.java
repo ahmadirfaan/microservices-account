@@ -1,11 +1,11 @@
-package com.irfaan.microservice.otp.dto;
+package com.irfaan.microservicesaccount.dto;
 
 import lombok.Data;
 
 /**
  * @author Ahmad Irfaan
  * @date 8/6/2021 10:20 AM
- * otp-service
+ * microservices-account
  */
 
 @Data

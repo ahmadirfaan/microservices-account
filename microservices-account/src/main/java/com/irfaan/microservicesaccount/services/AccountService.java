@@ -6,6 +6,8 @@ import com.irfaan.microservicesaccount.db.entity.TempAccount;
 import com.irfaan.microservicesaccount.db.repository.AccountRepository;
 import com.irfaan.microservicesaccount.db.repository.TempAccountRepository;
 import com.irfaan.microservicesaccount.dto.RegisterCheckDto;
+import com.irfaan.microservicesaccount.dto.RegisterPasswordDto;
+import com.irfaan.microservicesaccount.dto.RegisterVerificationDto;
 import com.irfaan.microservicesaccount.feignclient.OTPClient;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,4 +65,51 @@ public class AccountService {
     public String testLoadBalancer() {
       return otpClient.testLoadBalancer();
     }
+
+    public ResponseEntity<?> verification(RegisterVerificationDto registerVerificationDto) {
+      // check redis
+       TempAccount tempAccountByEmail = tempAccountRepository.getFirstByEmail(registerVerificationDto.getEmail());
+       if(tempAccountByEmail == null) {
+          return ResponseEntity.notFound().build();
+       }
+
+       // verification otp
+       try {
+          otpClient.verificationOTP(registerVerificationDto);
+       } catch (FeignException.FeignClientException ex) {
+          ex.printStackTrace();
+          return ResponseEntity.unprocessableEntity().build();
+       }
+
+       // update verification
+       tempAccountByEmail.setValid(true);
+       tempAccountRepository.save(tempAccountByEmail);
+
+       return ResponseEntity.ok().build();
+    }
+
+   public ResponseEntity<?> registerPasswordDto(RegisterPasswordDto registerPasswordDto) {
+      // check redis
+      TempAccount tempAccount = tempAccountRepository.getFirstByEmail(registerPasswordDto.getEmail());
+      if (tempAccount == null) return ResponseEntity.notFound().build();
+
+      // verification valid
+      if (!tempAccount.isValid()) return ResponseEntity.unprocessableEntity().build();
+
+      // save to postgres
+      Account account = new Account();
+      account.setEmail(registerPasswordDto.getEmail());
+      account.setPassword(registerPasswordDto.getPassword());
+      try {
+         accountRepository.save(account);
+      } catch (Exception ex) {
+         ex.printStackTrace();
+         return ResponseEntity.unprocessableEntity().build();
+      }
+
+      // delete tempaccount
+      tempAccountRepository.delete(tempAccount);
+
+      return ResponseEntity.ok().build();
+   }
 }

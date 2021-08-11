@@ -1,6 +1,7 @@
 package com.irfaan.microservice.otp.controllers;
 
 import com.irfaan.microservice.otp.dto.RegisterCheckDto;
+import com.irfaan.microservice.otp.dto.RegisterVerificationDto;
 import com.irfaan.microservice.otp.services.OTPService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +48,8 @@ public class OTPController {
    }
 
    @PostMapping("/verification")
-   public ResponseEntity<?> verificationOTP(@RequestBody ) {
-
+   public ResponseEntity<?> verificationOTP(@RequestBody RegisterVerificationDto registerVerificationDto) {
+      return otpService.verificationOTP(registerVerificationDto);
    }
 
 }

@@ -1,6 +1,7 @@
 package com.irfaan.microservicesaccount.feignclient;
 
 import com.irfaan.microservicesaccount.dto.RegisterCheckDto;
+import com.irfaan.microservicesaccount.dto.RegisterVerificationDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,4 +21,7 @@ public interface OTPClient {
 
     @GetMapping("/test-loadbalancer")
     public String testLoadBalancer();
+
+    @PostMapping("/verification")
+    public ResponseEntity<?> verificationOTP(@RequestBody RegisterVerificationDto registerVerificationDto);
 }
