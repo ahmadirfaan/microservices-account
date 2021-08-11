@@ -1,11 +1,10 @@
 spring:
   application:
-    name: account-service
+    name: account
   redis:
     host: localhost # setting untuk redis
     port: 6380
   datasource:
-    platform: hibernate.dialect.PostgreSQLDialect
     url: jdbc:postgresql://localhost:5433/account
     username: postgres
     password: P@ssw0rd
@@ -17,6 +16,9 @@ spring:
       hibernate:
         default-schema: public
         format_sql: true
+  sql:
+    init:
+      platform: hibernate.dialect.PostgreSQLDialect
 server:
   port: 8010
 #eureka atau load balancer setting
