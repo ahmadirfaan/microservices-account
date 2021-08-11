@@ -46,4 +46,9 @@ public class OTPController {
       return "oke with port: " + port;
    }
 
+   @PostMapping("/verification")
+   public ResponseEntity<?> verificationOTP(@RequestBody ) {
+
+   }
+
 }

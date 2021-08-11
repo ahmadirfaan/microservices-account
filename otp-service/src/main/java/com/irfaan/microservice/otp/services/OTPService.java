@@ -2,10 +2,12 @@ package com.irfaan.microservice.otp.services;
 
 import com.irfaan.microservice.otp.db.entity.TempOTP;
 import com.irfaan.microservice.otp.db.repository.TempOTPRepository;
+import com.irfaan.microservice.otp.dto.EmailDto;
 import com.irfaan.microservice.otp.dto.RegisterCheckDto;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
@@ -22,10 +24,14 @@ import java.util.Random;
 public class OTPService {
 
     private final TempOTPRepository tempOTPRepository;
+    private final RedisTemplate redisTemplate;
+    private final ChannelTopic channelTopic;
 
     @Autowired
-    public OTPService(TempOTPRepository tempOTPRepository) {
+    public OTPService(TempOTPRepository tempOTPRepository, RedisTemplate redisTemplate, ChannelTopic channelTopic) {
         this.tempOTPRepository = tempOTPRepository;
+        this.redisTemplate = redisTemplate;
+        this.channelTopic = channelTopic;
     }
 
     public void requestOTP(RegisterCheckDto registerCheckDto){
@@ -45,10 +51,18 @@ public class OTPService {
         tempOTPRepository.save(tempOTP);
 
         // Send to message broker
+        sendEmail(email, "Kode Verifikasi Anda adalah " + randomOTP);
     }
+
+
 
     public void sendEmail(String to, String body) {
         log.debug("to: {}, body: {}", to, body);
+        EmailDto emailDto = new EmailDto();
+        emailDto.setTo(to);
+        emailDto.setSubject("Kode verifikasi");
+        emailDto.setBody(body);
+        redisTemplate.convertAndSend(channelTopic.getTopic(), emailDto);
     }
 
     private String generateOTP() {

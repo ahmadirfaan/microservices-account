@@ -5,17 +5,21 @@ spring:
   mail:
     port: 587
     host: smtp.gmail.com
-    username: vargoadventure@gmail.com
-    password: hibatullah22
+    username: ${USERNAME_EMAIL}
+    password: ${EMAIL_PASSWORD}
     properties:
-      smtp:
-        auth: true
       mail:
         smtp:
-          starttl:
+          auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+          starttls:
             enable: true
+            required: true
+    protocol: smtp
 
-# connection redis
+  # connection redis
   redis:
     port: 6380
     host: localhost
