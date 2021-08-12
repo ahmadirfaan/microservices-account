@@ -5,6 +5,7 @@ import com.irfaan.microservice.otp.dto.RegisterVerificationDto;
 import com.irfaan.microservice.otp.services.OTPService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,9 @@ public class OTPController {
    private final OTPService otpService;
 
    private final Environment environment;
+
+   @Value("${db.string:default}")
+   private String dbString;
 
    @Autowired
    public OTPController(OTPService otpService, Environment environment) {
@@ -50,6 +54,11 @@ public class OTPController {
    @PostMapping("/verification")
    public ResponseEntity<?> verificationOTP(@RequestBody RegisterVerificationDto registerVerificationDto) {
       return otpService.verificationOTP(registerVerificationDto);
+   }
+
+   @GetMapping("/test-profile-config")
+   public String testProfileConfig() {
+      return dbString;
    }
 
 }

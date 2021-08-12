@@ -20,7 +20,7 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 @Configuration
 @EnableRedisRepositories
 public class RedisConfig {
-    @Value("${spring.redis.host:localhost}") //mengambil nilai redishost di application.yaml
+    @Value("${spring.redis.host:localhost}") //mengambil nilai redishost di application.yml
     private String redisHost;
     @Value("${spring.redis.port:6380}")
     private Integer redisPort;

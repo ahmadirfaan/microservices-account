@@ -5,6 +5,8 @@ spring:
     port: 6380
     host: localhost
     timeout: 10s
+  config:
+    import: optional:configserver:http://localhost:8888
 server:
   port: 8020
 # untuk eureka service registry

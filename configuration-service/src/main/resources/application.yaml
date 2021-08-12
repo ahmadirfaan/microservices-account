@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: configuration
+  cloud:
+    config:
+      enabled: true
+      server:
+        git:
+          uri: file:///I:/Projects/microservices-johhny/configuration #merupakan lokasi git tempat configuration di local
+      label: master
+server:
+  port: 8888
