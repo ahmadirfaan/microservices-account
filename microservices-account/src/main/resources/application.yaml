@@ -1,6 +1,9 @@
 spring:
   application:
     name: account
+  zipkin:
+    enabled: true
+    base-url: http://localhost:9411/
   redis:
     host: localhost # setting untuk redis
     port: 6380
@@ -34,3 +37,5 @@ logging:
     com:
       irfaan:
         microservicesaccount: debug
+# zipkin setting
+
